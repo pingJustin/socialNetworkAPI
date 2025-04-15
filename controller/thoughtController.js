@@ -12,7 +12,6 @@ createThought(req, res) {
           {new:true}
 
       )
-   
   })
   .then(userData => res.json(userData))
   .catch((err) => res.status(500).json(err));
@@ -29,10 +28,6 @@ getThoughtById({ params }, res) {
     }
     res.json(dbThoughtData);
   })
-  .catch((err) => {
-    console.log(err);
-    res.status(400).json(err);
-  });
 },
 
 //get all thoughts
@@ -73,8 +68,6 @@ deleteThought(req, res) {
 
 //add a reaction
 addReaction(req, res) {
-    console.log('You are adding a reaction');
-    console.log(req.body);
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $addToSet: { reactions: req.body} },
@@ -92,8 +85,6 @@ addReaction(req, res) {
 
 //delete a reaction
 deleteReaction(req, res) {
-  console.log(req.params)
-
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $pull: { reactions: { reactionId: req.params.reactionId} } },
@@ -101,7 +92,6 @@ deleteReaction(req, res) {
       // { new: true }
     )
       .then((thought) =>
-      // console.log("get the deleteReaction")
         !thought
           ? res
               .status(404)
